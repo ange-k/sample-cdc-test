@@ -24,6 +24,15 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<!-- CDC On the Producer Side-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-contract-verifier</artifactId>
+			<version>2.2.4.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- CDC On the Producer Side-->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -43,6 +52,38 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<!-- CDC On the Producer Side-->
+			<plugin>
+				<!-- DSLからWireMockを使ったテストを自動生成してくれるライブラリ -->
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-contract-maven-plugin</artifactId>
+				<version>2.2.4.RELEASE</version>
+				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<!-- OpenAPIからコードを生成するためのライブラリ -->
+				<!-- https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-maven-plugin/README.md -->
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<!-- RELEASE_VERSION -->
+				<version>4.3.1</version>
+				<!-- /RELEASE_VERSION -->
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/docs/openapi.yaml</inputSpec>
+							<generatorName>java</generatorName>
+							<configOptions>
+								<sourceFolder>src/gen/java/main</sourceFolder>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- CDC On the Producer Side-->
 		</plugins>
 	</build>
 
