@@ -1,0 +1,103 @@
+openapi: 3.0.0
+info:
+  title: reservations
+  version: '1.0'
+  description: 予約を扱うAPI
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/reservation/{rid}':
+    parameters:
+      - schema:
+          type: number
+        name: rid
+        in: path
+        description: 予約ID
+        required: true
+    get:
+      summary: 予約情報の取得
+      tags:
+        - reservation
+      operationId: get-reservation-rid
+      description: 予約の情報を返します
+      responses:
+        '200':
+          description: 成功時
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Piza'
+              examples:
+                example:
+                  value:
+                    id: 1234567890
+                    pizza: ナポリ
+                    topping:
+                      - サラミ
+                      - ウインナー
+                      - フランクフルト
+                      - えび
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+        '404':
+          description: 予約が見つからなかった
+      parameters: []
+  /reservation:
+    post:
+      summary: ''
+      operationId: post-reservation
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
+      description: 予約登録
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Piza'
+            examples:
+              example:
+                value:
+                  pizza: シーフード
+                  topping:
+                    - いか
+                    - いか
+                    - いか
+                    - たこ
+        description: 注文するpizzaの情報
+      tags:
+        - reservation
+components:
+  schemas:
+    Piza:
+      title: Piza
+      type: object
+      description: 一般的なpizza
+      x-examples:
+        example:
+          id: 1234567890
+          pizza: クアトロフォルマッジ
+          topping:
+            - プロセスチーズ
+            - チェダーチーズ
+            - サラミ
+            - サラミ
+      properties:
+        id:
+          type: number
+          nullable: true
+        topping:
+          type: array
+          items:
+            type: string
+        pizza:
+          type: string
+      required:
+        - topping
+        - pizza
+tags:
+  - name: reservation
