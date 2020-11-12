@@ -26,7 +26,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Piza'
+                $ref: '#/components/schemas/Pizza'
               examples:
                 example:
                   value:
@@ -43,6 +43,14 @@ paths:
                 properties: {}
         '404':
           description: 予約が見つからなかった
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PizzaError'
+              examples:
+                example:
+                  value:
+                    msg: NOT_FOUND
       parameters: []
   /reservation:
     post:
@@ -58,23 +66,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Piza'
+              $ref: '#/components/schemas/Pizza'
             examples:
               example:
                 value:
-                  pizza: シーフード
+                  id: null
                   topping:
-                    - いか
-                    - いか
-                    - いか
-                    - たこ
+                    - string
+                  pizza: string
         description: 注文するpizzaの情報
       tags:
         - reservation
 components:
   schemas:
-    Piza:
-      title: Piza
+    Pizza:
+      title: Pizza
       type: object
       description: 一般的なpizza
       x-examples:
@@ -90,6 +96,7 @@ components:
         id:
           type: number
           nullable: true
+          description: PizzaのID。登録時は指定されない
         topping:
           type: array
           items:
@@ -99,5 +106,16 @@ components:
       required:
         - topping
         - pizza
+    PizzaError:
+      title: PizzaError
+      type: object
+      properties:
+        msg:
+          type: string
+          enum:
+            - NOT_FOUND
+            - SERVER_ERROR
+      required:
+        - msg
 tags:
   - name: reservation
