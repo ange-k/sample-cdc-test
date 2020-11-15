@@ -6,6 +6,7 @@ import chalkboard.me.cdc.producer.model.Pizza;
 import chalkboard.me.cdc.producer.presentation.controller.exception.SystemException;
 import chalkboard.me.cdc.producer.presentation.controller.pizza.exception.PizzaNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ReservationDelegateImpl implements ReservationApiDelegate {
 
   private final PizzaRepository pizzaRepository;
@@ -33,6 +35,12 @@ public class ReservationDelegateImpl implements ReservationApiDelegate {
 
   @Override
   public ResponseEntity<Void> postReservation(Pizza pizza) {
-    return null;
+    try {
+      Integer rid = pizzaRepository.addPizza(pizza);
+      log.info("ピザID:" + rid);
+      return new ResponseEntity<>(HttpStatus.CREATED);
+    } catch (Exception e) {
+      throw new SystemException("ピザ作成時にサーバーエラー");
+    }
   }
 }

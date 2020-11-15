@@ -13,4 +13,11 @@ public class PizzaDatasource implements PizzaRepository {
     PizzaDto dto = pizzaMapper.findPizza(rid);
     return dto.toEntity();
   }
+
+  @Override
+  public Integer addPizza(Pizza pizza) {
+    PizzaDto dto = PizzaDto.valueOf(pizza);
+    pizzaMapper.addPizza(dto);
+    return dto.getId();
+  }
 }

@@ -4,4 +4,5 @@ import chalkboard.me.cdc.producer.model.Pizza;
 
 public interface PizzaRepository {
   Pizza findPizza(Integer rid);
+  Integer addPizza(Pizza pizza);
 }
