@@ -9,7 +9,7 @@ paths:
   '/reservation/{rid}':
     parameters:
       - schema:
-          type: number
+          type: integer
         name: rid
         in: path
         description: 予約ID
@@ -94,7 +94,7 @@ components:
             - サラミ
       properties:
         id:
-          type: number
+          type: integer
           nullable: true
           description: PizzaのID。登録時は指定されない
         topping:

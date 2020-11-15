@@ -1,0 +1,19 @@
+# datasource
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.h2.Driver
+    #url: jdbc:h2:file:~/db/h2db;MODE=Oracle;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:develop;MODE=Oracle;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    hikari:
+      pool-name: ConnectionPool
+      leakDetectionThreshold: 5000
+      maximum-pool-size: 20
+      minimum-idle: 10
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver # バージョンの違うドライバでDBファイルにアクセスするとデータごと死ぬ
+    schema: classpath:h2/schema.sql
+    data: classpath:h2/data.sql
+    initialization-mode: embedded # (DB初期化用SQL↑実行を)常に行う.EMBEDDED=h2dbのとき、の意味. ALWAYSは無条件
+    #initialization-mode: never # 行わない.
