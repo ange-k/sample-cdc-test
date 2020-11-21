@@ -57,7 +57,7 @@ paths:
       summary: ''
       operationId: post-reservation
       responses:
-        '200':
+        '201':
           description: OK
         '500':
           description: Internal Server Error
