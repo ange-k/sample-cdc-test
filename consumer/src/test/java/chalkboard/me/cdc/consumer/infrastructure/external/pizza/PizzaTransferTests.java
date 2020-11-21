@@ -11,6 +11,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.stubrunner.spring.AutoConfigureStubRunner;
 import org.springframework.cloud.contract.stubrunner.spring.StubRunnerProperties;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import shaded.com.google.common.collect.Lists;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @AutoConfigureStubRunner(ids = {"chalkboard.me.cdc:producer:+:stubs:8585"},
     stubsMode = StubRunnerProperties.StubsMode.LOCAL)
-public class PizzaExternalTests {
+public class PizzaTransferTests {
   @Autowired
   private PizzaRepository pizzaRepository;
 
@@ -30,5 +34,19 @@ public class PizzaExternalTests {
     assertNotNull(dto.getPizza());
     assertTrue(dto.getId() > 0 && Strings.isNotEmpty(dto.getPizza()));
     assertTrue(CollectionUtils.isNotEmpty(dto.getTopping()));
+  }
+
+  @Test
+  void Producerに対してpostする() {
+    PizzaDto dto = new PizzaDto(
+        null,
+        "ナポリ",
+        Arrays.asList("サラミ", "ウインナー", "フランクフルト","えび")
+    );
+    try {
+      pizzaRepository.addPizza(dto);
+    } catch (Exception e) {
+      fail();
+    }
   }
 }

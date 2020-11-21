@@ -3,7 +3,7 @@ package contracts.pizz
 org.springframework.cloud.contract.spec.Contract.make {
     request {
         method 'POST'
-        urlPath 'reservation'
+        urlPath '/reservation'
         headers {
             header('Content-Type': 'application/json')
         }
