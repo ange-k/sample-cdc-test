@@ -13,6 +13,6 @@ spring:
       password:
       driver-class-name: org.h2.Driver # バージョンの違うドライバでDBファイルにアクセスするとデータごと死ぬ
     schema: classpath:h2/schema.sql
-    #data: classpath:h2/data.sql
+    data: classpath:h2/data.sql # ちゃんとdbテストするならdbunitやdatabase-riderを使ったほうがいい.
     initialization-mode: embedded # (DB初期化用SQL↑実行を)常に行う.EMBEDDED=h2dbのとき、の意味. ALWAYSは無条件
     #initialization-mode: never # 行わない.

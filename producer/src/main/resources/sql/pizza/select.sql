@@ -2,5 +2,5 @@ select
     id,
     pizza,
     topping
-from PIZZA
+from PIZZAS
 where id = #{rid}
