@@ -1,9 +1,9 @@
 package chalkboard.me.cdc.producer.infrastructure.datasource.pizza;
 
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.mapstruct.Mapper;
 
 @Mapper
 public interface PizzaMapper {
