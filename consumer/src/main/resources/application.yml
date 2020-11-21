@@ -1,0 +1,8 @@
+
+transfer:
+  pizza:
+    url: http://127.0.0.1:8585
+    find-path: /reservation/{rid}
+    reservation-path: reservation
+    connection-timeout: 500
+    read-timeout: 2000

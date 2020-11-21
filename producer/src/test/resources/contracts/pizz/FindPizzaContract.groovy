@@ -3,7 +3,7 @@ package contracts.pizz
 org.springframework.cloud.contract.spec.Contract.make {
     request {
         method 'GET'
-        urlPath 'reservation/2' // ここを固定しないと、Producer側単体テストの準備が難しい
+        urlPath '/reservation/2' // ここを固定しないと、Producer側単体テストの準備が難しい
     }
     response {
         status 200
