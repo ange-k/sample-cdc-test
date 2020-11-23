@@ -57,6 +57,17 @@
 			<version>1.18.12</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- コード自動生成の結果要求される依存ライブラリ -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -65,6 +76,44 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<!-- OpenAPIからコードを生成するためのライブラリ -->
+				<!-- https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-maven-plugin/README.md -->
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>5.0.0-beta3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<!-- https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin -->
+							<inputSpec>https://raw.githubusercontent.com/angelica-keiskei/sample-cdc-test/master/producer/docs/openapi.yaml</inputSpec>
+							<generatorName>spring</generatorName>
+							<modelPackage>chalkboard.me.cdc.producer.model</modelPackage>
+							<generateApis>false</generateApis>
+							<generateModels>true</generateModels>
+							<generateSupportingFiles>false</generateSupportingFiles>
+							<generateModelDocumentation>false</generateModelDocumentation>
+							<generateModelTests>false</generateModelTests>
+							<modelsToGenerate>Pizza</modelsToGenerate>
+							<!-- https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/spring.md -->
+							<configOptions>
+								<library>spring-boot</library>
+								<basePackage>chalkboard.me.cdc.producer</basePackage>
+								<sourceFolder>src/gen/java/main</sourceFolder>
+								<dateLibrary>java8-localdatetime</dateLibrary>
+								<java8>true</java8>
+								<!-- jsonNullableの無効化. モデルをレスポンスに使うとのシリアライズに失敗するため. -->
+								<openApiNullable>false</openApiNullable>
+								<useBeanValidation>true</useBeanValidation>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- CDC On the Producer Side-->
 		</plugins>
 	</build>
 

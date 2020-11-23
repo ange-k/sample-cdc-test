@@ -1,7 +1,7 @@
 package chalkboard.me.cdc.consumer.infrastructure.external.pizza;
 
-import chalkboard.me.cdc.consumer.domain.pizza.PizzaDto;
 import chalkboard.me.cdc.consumer.domain.pizza.PizzaRepository;
+import chalkboard.me.cdc.producer.model.Pizza;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.junit.jupiter.api.Test;
@@ -11,10 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.stubrunner.spring.AutoConfigureStubRunner;
 import org.springframework.cloud.contract.stubrunner.spring.StubRunnerProperties;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import shaded.com.google.common.collect.Lists;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,7 +26,7 @@ public class PizzaTransferTests {
 
   @Test
   void Producerに対してgetする() {
-    PizzaDto dto = pizzaRepository.findPizza(2); // ID=2がstubのkeyであることを知るにはcontractを見る必要がある...
+    Pizza dto = pizzaRepository.findPizza(2); // ID=2がstubのkeyであることを知るにはcontractを見る必要がある...
     assertNotNull(dto);
     assertNotNull(dto.getId());
     assertNotNull(dto.getPizza());
@@ -38,11 +36,9 @@ public class PizzaTransferTests {
 
   @Test
   void Producerに対してpostする() {
-    PizzaDto dto = new PizzaDto(
-        null,
-        "ナポリ",
-        Arrays.asList("サラミ", "ウインナー", "フランクフルト","えび")
-    );
+    Pizza dto = new Pizza()
+        .pizza("ナポリ")
+        .topping(Arrays.asList("サラミ", "ウインナー", "フランクフルト","えび"));
     try {
       pizzaRepository.addPizza(dto);
     } catch (Exception e) {

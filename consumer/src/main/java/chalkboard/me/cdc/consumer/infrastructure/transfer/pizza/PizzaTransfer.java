@@ -1,7 +1,7 @@
 package chalkboard.me.cdc.consumer.infrastructure.transfer.pizza;
 
-import chalkboard.me.cdc.consumer.domain.pizza.PizzaDto;
 import chalkboard.me.cdc.consumer.domain.pizza.PizzaRepository;
+import chalkboard.me.cdc.producer.model.Pizza;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ public class PizzaTransfer implements PizzaRepository {
   private final PizzaConfig pizzaConfig;
 
   @Override
-  public PizzaDto findPizza(Integer rid) {
+  public Pizza findPizza(Integer rid) {
     return pizzaConfig.pizzaClient()
         .get()
         .uri(pizzaConfig.getFindPath(), rid)
@@ -24,16 +24,16 @@ public class PizzaTransfer implements PizzaRepository {
           log.error("ピザ取得失敗" + clientResponse.statusCode().toString());
           return Mono.error(new RuntimeException());
         })
-        .bodyToMono(PizzaDto.class)
+        .bodyToMono(Pizza.class)
         .block(); // SpringWebベースなのでblockしているが、FluxでやるならMonoを返してノンブロッキングな作りにしていく
   }
 
   @Override
-  public void addPizza(PizzaDto pizza) {
+  public void addPizza(Pizza pizza) {
     pizzaConfig.pizzaClient()
       .post()
       .uri(pizzaConfig.getReservationPath())
-      .body(Mono.just(pizza), PizzaDto.class)
+      .body(Mono.just(pizza), Pizza.class)
       .retrieve()
       .onStatus(HttpStatus::isError, clientResponse -> {
         log.error("ピザ登録失敗" + clientResponse.statusCode().toString());
