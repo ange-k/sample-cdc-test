@@ -52,6 +52,7 @@ paths:
                   value:
                     msg: NOT_FOUND
       parameters: []
+      security: []
   /reservation:
     post:
       summary: ''
@@ -77,6 +78,7 @@ paths:
         description: 注文するpizzaの情報
       tags:
         - reservation
+      security: []
 components:
   schemas:
     Pizza:
