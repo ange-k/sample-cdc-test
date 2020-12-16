@@ -4,6 +4,8 @@ import chalkboard.me.cdc.producer.model.Pizza;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Objects;
+
 @Repository
 @RequiredArgsConstructor
 public class PizzaDatasource implements PizzaRepository {
@@ -11,6 +13,8 @@ public class PizzaDatasource implements PizzaRepository {
 
   public Pizza findPizza(Integer rid) {
     PizzaDto dto = pizzaMapper.findPizza(rid);
+    if(Objects.isNull(dto)) return null;
+
     return dto.toEntity();
   }
 

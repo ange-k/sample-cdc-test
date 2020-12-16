@@ -28,6 +28,8 @@ public class ReservationDelegateImpl implements ReservationApiDelegate {
         throw new PizzaNotFoundException("ピザがありませんでした");
       }
       return new ResponseEntity<>(pizza, HttpStatus.OK);
+    } catch(PizzaNotFoundException ne){
+      throw ne;
     } catch (Exception e) {
       throw new SystemException("ピザ取得時にサーバーエラー");
     }
