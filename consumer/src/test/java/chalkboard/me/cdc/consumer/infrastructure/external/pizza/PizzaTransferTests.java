@@ -25,7 +25,7 @@ public class PizzaTransferTests {
   private PizzaRepository pizzaRepository;
 
   @Test
-  void Producerに対してgetする() {
+  void 存在するピザにアクセスする() {
     Pizza dto = pizzaRepository.findPizza(2); // ID=2がstubのkeyであることを知るにはcontractを見る必要がある...
     assertNotNull(dto);
     assertNotNull(dto.getId());
@@ -35,7 +35,18 @@ public class PizzaTransferTests {
   }
 
   @Test
-  void Producerに対してpostする() {
+  void 存在しないピザにアクセスする() {
+    try{
+      Pizza dto = pizzaRepository.findPizza(404);
+    } catch (Exception e) {
+      // Httpステータスエラーとなるため
+      return;
+    }
+    fail();
+  }
+
+  @Test
+  void ピザを登録する() {
     Pizza dto = new Pizza()
         .pizza("ナポリ")
         .topping(Arrays.asList("サラミ", "ウインナー", "フランクフルト","えび"));
